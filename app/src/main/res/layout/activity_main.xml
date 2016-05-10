@@ -2,14 +2,17 @@
 <android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:background="@color/background_tab_pressed"
     android:id="@+id/draw_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ui.activity.MainActivity">
 
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="#994589"
         android:orientation="vertical">
 
         <cn.qiuc.org.igoogleplay.lib.pagerslidingtab.PagerSlidingTab
@@ -18,12 +21,13 @@
             android:layout_height="45dp"
             android:textSize="16sp"
             app:indicatorColor="@color/slidingtab_indicatorcolor"
-            app:indicatorHeight="4dp"></cn.qiuc.org.igoogleplay.lib.pagerslidingtab.PagerSlidingTab>
+            app:indicatorHeight="4dp" />
 
 
         <android.support.v4.view.ViewPager
+            android:id="@+id/view_pager"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"></android.support.v4.view.ViewPager>
+            android:layout_height="match_parent" />
     </LinearLayout>
 
     <FrameLayout
@@ -32,5 +36,6 @@
         android:layout_gravity="start"
         android:background="#ffffff">
         <!-- include -->
+        <include layout="@layout/menu_list" />
     </FrameLayout>
 </android.support.v4.widget.DrawerLayout>

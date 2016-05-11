@@ -5,4 +5,6 @@
     <color name="colorAccent">#FF4081</color>
     <color name="background_tab_pressed">#6633B5E5</color>
     <color name="slidingtab_indicatorcolor">#0084FF</color>
+    <color name="menu_bg_press">#cecece</color>
+    <color name="menu_bg_normal">#f0f1f3</color>
 </resources>

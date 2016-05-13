@@ -14,7 +14,7 @@ public class FragmentFactory {
         if (fragment == null) {
             switch (position) {
                 case 0:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment();
                     break;
                 case 1:
 //                    fragment = new HomeFragment(); TODO

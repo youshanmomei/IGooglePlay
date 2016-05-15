@@ -102,7 +102,7 @@ public abstract class ContentPage extends RelativeLayout {
     /**
      * loading data, and according to load data to refresh view
      */
-    private void loadDataAndRefreshView() {
+    public void loadDataAndRefreshView() {
         //use a single thread pool to request
         ExecutorService threadPool = Executors.newFixedThreadPool(1);
         threadPool.execute(new Runnable() {

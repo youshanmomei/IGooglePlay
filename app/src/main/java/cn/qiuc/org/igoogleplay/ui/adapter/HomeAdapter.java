@@ -15,5 +15,12 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
         super(context, list);
     }
 
-    //TODO...
+//    HomeHolder holder; TODO
+
+
+//    static class HomeHolder implements DownloadObserver{
+//
+//    }
+
+
 }

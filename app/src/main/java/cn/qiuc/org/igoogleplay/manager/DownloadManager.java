@@ -1,5 +1,7 @@
 package cn.qiuc.org.igoogleplay.manager;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Environment;
 
 import java.io.File;
@@ -32,7 +34,7 @@ public class DownloadManager {
     public static final int STATE_ERROR = 4;
     public static final int STATE_PAUSE = 5;
 
-    private List<DownloadOberver> observers = new ArrayList<DownloadOberver>();
+    private List<DownloadObserver> observers = new ArrayList<DownloadObserver>();
     private HashMap<Integer, DownloadInfo> downloadInfoMap = new HashMap<Integer, DownloadInfo>();
     private HashMap<Integer, DownloadTask> downloadTaskMap = new HashMap<Integer, DownloadTask>();
 
@@ -66,14 +68,16 @@ public class DownloadManager {
         //2.to determine whether to start downloading
         //not downloading or downloaded can be downloaded
         if (downloadInfo.state == STATE_NONE || downloadInfo.state == STATE_PAUSE || downloadInfo.state == STATE_ERROR) {
-//            DownLoadTask dOwnLoadTask = new DownloadTask(downloadInfo);
-//            downloadTaskMap.put(downloadInfo.id, downLoadTask);
+            //3. create download task
+            //   and maintained up into downloadTask Map
+            DownloadTask downloadTask = new DownloadTask(downloadInfo);
+            downloadTaskMap.put(downloadInfo.id, downloadTask);
 
             downloadInfo.state = STATE_WAITTING;
             notifyStateChange(downloadInfo);
 
             //4.task to ThreadPoolManager execution
-//            ThreadPoolMaager.getInstance().execute(dOwnLoadTask);
+            ThreadPoolManager.getInstance().execute(downloadTask);
         }
 
 
@@ -132,7 +136,7 @@ public class DownloadManager {
                         fos.flush();
 
                         downloadInfo.currentLength = downloadInfo.currentLength + len;
-//                        notifyProgressChange(downloadInfo);
+                        notifyProgressChange(downloadInfo);
                     }
                 } else {
                     //the server return an error
@@ -179,21 +183,64 @@ public class DownloadManager {
         }
     }
 
+    public void pause(AppInfo appInfo) {
+        DownloadInfo downloadInfo = downloadInfoMap.get(appInfo.id);
+        if (downloadInfo != null) {
+            DownloadTask downloadTask = downloadTaskMap.get(downloadInfo.id);
+            ThreadPoolManager.getInstance().cancel(downloadTask);
+
+            downloadInfo.state = STATE_PAUSE;
+            notifyStateChange(downloadInfo);
+        }
+
+    }
+
+    public DownloadInfo getDownloadInfo(AppInfo appInfo) {
+        return downloadInfoMap.get(appInfo.id);
+    }
+
+    public void installApk(AppInfo appInfo) {
+        DownloadInfo downloadInfo = downloadInfoMap.get(appInfo.id);
+        if (downloadInfo != null) {
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            intent.setDataAndType(Uri.parse("file://" + downloadInfo.path), "application/vnd.android.package-archive");
+            IGooglePlayApplication.getContext().startActivity(intent);
+        }
+    }
+
     /**
      * notify all listeners download progress update
      *
      * @param downloadInfo
      */
     private void notifyStateChange(DownloadInfo downloadInfo) {
-        for (DownloadOberver oberver : observers) {
-//            observers.onDownloadProgressChnage(downloadInfo);
+        for (DownloadObserver oberver : observers) {
+            oberver.onDownloadProgressChnage(downloadInfo);
         }
     }
 
+    private void notifyProgressChange(DownloadInfo downloadInfo) {
+        for (DownloadObserver observer : observers) {
+            observer.onDownloadProgressChnage(downloadInfo);
+        }
+    }
 
-    private interface DownloadOberver {
+    public void registerDownloadObserver(DownloadObserver downloadObserver) {
+        if (downloadObserver != null && !observers.contains(downloadObserver)) {
+            observers.add(downloadObserver);
+        }
+    }
+
+    public void unregisterDownloadObserver(DownloadObserver downloadObserver) {
+        if (downloadObserver != null && observers.contains(downloadObserver)) {
+            observers.remove(downloadObserver);
+        }
+    }
+
+    public interface DownloadObserver {
         void onDownloadStateChange(DownloadInfo downloadInfo);
 
-        void onDownloadProgressChange(DownloadInfo downloadInfo);
+        void onDownloadProgressChnage(DownloadInfo downloadInfo);
     }
 }

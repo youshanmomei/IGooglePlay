@@ -7,4 +7,5 @@
     <color name="slidingtab_indicatorcolor">#0084FF</color>
     <color name="menu_bg_press">#cecece</color>
     <color name="menu_bg_normal">#f0f1f3</color>
+    <color name="item_divider">#ffd7d7d7</color>
 </resources>

@@ -1,10 +1,28 @@
 package cn.qiuc.org.igoogleplay.ui.adapter;
 
 import android.content.Context;
+import android.text.format.Formatter;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
+import android.widget.ImageView;
+import android.widget.RatingBar;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
+
+import com.nostra13.universalimageloader.core.ImageLoader;
 
 import java.util.ArrayList;
 
+import cn.qiuc.org.igoogleplay.R;
 import cn.qiuc.org.igoogleplay.bean.AppInfo;
+import cn.qiuc.org.igoogleplay.global.IGooglePlayApplication;
+import cn.qiuc.org.igoogleplay.global.ImageLoadercfg;
+import cn.qiuc.org.igoogleplay.http.Url;
+import cn.qiuc.org.igoogleplay.manager.DownloadInfo;
+import cn.qiuc.org.igoogleplay.manager.DownloadManager;
+import cn.qiuc.org.igoogleplay.ui.view.ProgressArc;
+import cn.qiuc.org.igoogleplay.util.CommonUtils;
 
 /**
  * Created by admin on 2016/5/15.
@@ -14,7 +32,6 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
     public HomeAdapter(Context context, ArrayList<AppInfo> list) {
         super(context, list);
     }
-/*
     HomeHolder holder;
 
 
@@ -25,16 +42,17 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
         }
         AppInfo appInfo = list.get(position);
         holder = HomeHolder.getHolder(convertView);
-        holder.mProgressArc.setForegroundResource(R.mipmap.ic_download);
+        holder.mProgressArc.setForegroundRessource(R.mipmap.ic_download);
 
         //whether to drawer progressBar or not
         holder.mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_NO_PROGRESS);
-        holder.action_text.setText(R.String.app_state_download);
+//        holder.action_text.setText(R.String.app_state_download);
+        holder.action_txt.setText(R.string.app_state_download);
         holder.setAppInfo(appInfo);
 
         holder.tv_app_name.setText(appInfo.name);
         holder.rb_rating.setRating(appInfo.stars);
-        holder.tc_size.setText(Formatter.formatFileSize(context, appInfo.size));
+        holder.tv_size.setText(Formatter.formatFileSize(context, appInfo.size));
         holder.tv_des.setText(appInfo.des);
 
         ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + appInfo.iconUrl, holder.iv_icon, ImageLoadercfg.options, animateFirstListener);
@@ -67,7 +85,7 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
             action_txt = (TextView) convertView.findViewById(R.id.action_txt);
 
             mProgressArc = new ProgressArc(IGooglePlayApplication.getContext());
-            int arcDiameter = CommonUtils.getDimens();
+            int arcDiameter = (int) CommonUtils.getDimens(R.dimen.progress_arc_width);
             mProgressArc.setArcDiameter(arcDiameter);
 
             mProgressArc.setProgressColor(IGooglePlayApplication.getContext().getResources().getColor(R.color.progress));
@@ -121,16 +139,16 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
 
         @Override
         public void onDownloadProgressChnage(final DownloadInfo downloadInfo) {
-            CommonUtils,runOnUIThread(new Runnable(){
+            CommonUtils.runOnUIThread(new Runnable() {
 
                 @Override
                 public void run() {
                     if (appInfo != null && appInfo.id == downloadInfo.id) {
-                        mProgressArc.setForegroundResource(R.mipmap.ic_pause);
+                        mProgressArc.setForegroundRessource(R.mipmap.ic_pause);
                         mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_DOWNLOADING);
-                        float percent = downloadInfo.currentLength*100f/downloadInfo.size;
-                        mProgressArc.setProgress(percent/100f, true);
-                        action_txt.setText((int)(percent) + "%");
+                        float percent = downloadInfo.currentLength * 100f / downloadInfo.size;
+                        mProgressArc.setProgress(percent / 100f, true);
+                        action_txt.setText((int) (percent) + "%");
                     }
                 }
             });
@@ -145,28 +163,29 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
                     public void run() {
                         switch (downloadInfo.state) {
                             case DownloadManager.STATE_NONE:
-                                mProgressArc.setForegroundResoource(R.mipmap.ic_download);
+                                mProgressArc.setForegroundRessource(R.mipmap.ic_download);
                                 mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_NO_PROGRESS);
                                 action_txt.setText(R.string.app_state_download);
                                 break;
                             case DownloadManager.STATE_WAITTING:
-                                mProgressArc.setForegroundResoource(R.mipmap.ic_pause);
-                                mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_WAITTING);
+                                mProgressArc.setForegroundRessource(R.mipmap.ic_pause);
+                                mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_WAITING);
+                                float percent = downloadInfo.currentLength * 100f / downloadInfo.size;
                                 mProgressArc.setProgress(percent / 100f, false);
                                 action_txt.setText(R.string.app_state_download);
                                 break;
                             case DownloadManager.STATE_FINISH:
-                                mProgressArc.setForegroundResoource(R.mipmap.ic_install);
+                                mProgressArc.setForegroundRessource(R.mipmap.ic_install);
                                 mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_NO_PROGRESS);
                                 action_txt.setText(R.string.app_state_download);
                                 break;
                             case DownloadManager.STATE_PAUSE:
-                                mProgressArc.setForegroundResoource(R.mipmap.ic_resume);
+                                mProgressArc.setForegroundRessource(R.mipmap.ic_resume);
                                 mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_NO_PROGRESS);
                                 action_txt.setText(R.string.app_state_paused);
                                 break;
                             case DownloadManager.STATE_ERROR:
-                                mProgressArc.setForegroundResoource(R.mipmap.ic_redownload);
+                                mProgressArc.setForegroundRessource(R.mipmap.ic_redownload);
                                 mProgressArc.setStyle(ProgressArc.PROGRESS_STYLE_NO_PROGRESS);
                                 action_txt.setText(R.string.app_state_error);
                                 break;
@@ -178,5 +197,4 @@ public class HomeAdapter extends BasicAdapter<AppInfo>{
 
     }
 
-*/
 }

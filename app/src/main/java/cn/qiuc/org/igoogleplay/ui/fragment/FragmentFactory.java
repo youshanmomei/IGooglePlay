@@ -17,30 +17,29 @@ public class FragmentFactory {
                     fragment = new HomeFragment();
                     break;
                 case 1:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment(); //TODO
                     break;
                 case 2:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment(); //TODO
                     break;
                 case 3:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment(); //TODO
                     break;
                 case 4:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment(); //TODO
                     break;
                 case 5:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment(); //TODO
                     break;
                 case 6:
-//                    fragment = new HomeFragment(); TODO
+                    fragment = new HomeFragment(); //TODO
                     break;
                 default:
-                    fragment = new DefaultFragment();
+                    fragment = new HomeFragment();
                     break;
             }
             fragmentCache.put(position, fragment);
         }
-
         return fragment;
     }
 }

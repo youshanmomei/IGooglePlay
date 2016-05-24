@@ -66,7 +66,7 @@ public class HomeFragment extends BaseFragment {
 
         initListener();
 
-        adapter = new HomeAdapter();
+        adapter = new HomeAdapter(getActivity(), list);
         listView.addHeaderView(header);
         listView.setAdapter(adapter);
 

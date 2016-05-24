@@ -10,6 +10,7 @@ import android.view.View;
 
 import cn.qiuc.org.igoogleplay.R;
 import cn.qiuc.org.igoogleplay.lib.pagerslidingtab.PagerSlidingTab;
+import cn.qiuc.org.igoogleplay.ui.adapter.MainPagerAdapter;
 
 public class MainActivity extends BaseActivity {
 
@@ -29,7 +30,7 @@ public class MainActivity extends BaseActivity {
         setContentView(R.layout.activity_main);
         draw_layout = (DrawerLayout) findViewById(R.id.draw_layout);
         sliding_tab = (PagerSlidingTab) findViewById(R.id.sliding_tab);
-        view_pager = (ViewPager) findViewById(R.id.view_pager);
+        view_pager = (ViewPager) findViewById(R.id.view_pager_main);
 
         //set shadow
         draw_layout.setDrawerShadow(R.drawable.ic_drawer_shadow, GravityCompat.START);
@@ -78,8 +79,8 @@ public class MainActivity extends BaseActivity {
 
     @Override
     protected void initDate() {
-//        view_pager.setAdapter(new MainPagerAdapter(getSupportFragmentManager())); //TODO
-//        sliding_tab.setViewPager(view_pager); //TODO
+        view_pager.setAdapter(new MainPagerAdapter(getSupportFragmentManager()));
+        sliding_tab.setViewPager(view_pager);
     }
 
     @Override

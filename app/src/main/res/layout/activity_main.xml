@@ -20,12 +20,13 @@
             android:layout_width="match_parent"
             android:layout_height="45dp"
             android:textSize="16sp"
+            android:background="#fff"
             app:indicatorColor="@color/slidingtab_indicatorcolor"
             app:indicatorHeight="4dp" />
 
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/view_pager"
+            android:id="@+id/view_pager_main"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

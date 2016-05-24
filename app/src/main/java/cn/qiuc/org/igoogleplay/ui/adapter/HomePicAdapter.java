@@ -24,7 +24,7 @@ public class HomePicAdapter extends PagerAdapter{
     public HomePicAdapter(Context context, ArrayList<String> urlList) {
         super();
         this.context = context;
-        this.urlList = urlList;
+        this.setUrlList(urlList);
     }
 
     @Override
@@ -40,6 +40,11 @@ public class HomePicAdapter extends PagerAdapter{
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = (ImageView) View.inflate(context, R.layout.adapter_home_pic, null);
+
+        //must use this to init
+        //or will throw Exception: java.lang.IllegalStateException: ImageLoader must be init with configuration before using
+//        ImageLoader.getInstance().init(ImageLoaderConfiguration.createDefault(context));
+        //or init it in IGooglePlayApplication
         ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + urlList.get(position), imageView, ImageLoadercfg.options);
         ((ViewGroup) container).addView(imageView);
         return imageView;

@@ -25,13 +25,13 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-<!--            <include layout="@layout/layout_detail_app_info" />
+           <include layout="@layout/layout_detail_app_info" />
 
-            <include layout="@layout/layout_detail_app_safe" />
+            <!--             <include layout="@layout/layout_detail_app_safe" />
 
-            <include layout="@layout/layout_detail_app_screen" />
+                        <include layout="@layout/layout_detail_app_screen" />
 
-            <include layout="@layout/layout_detail_app_intro" />-->
+                        <include layout="@layout/layout_detail_app_intro" />-->
 
         </LinearLayout>
     </ScrollView>

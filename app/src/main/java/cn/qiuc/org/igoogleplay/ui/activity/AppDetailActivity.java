@@ -1,5 +1,7 @@
 package cn.qiuc.org.igoogleplay.ui.activity;
 
+import android.os.Handler;
+import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
 
@@ -23,6 +25,8 @@ public class AppDetailActivity extends BaseActivity {
     private String packageName;
     private AppInfo appInfo;
     private ImageView iv_icon;
+
+
 
     @Override
     protected void initView() {

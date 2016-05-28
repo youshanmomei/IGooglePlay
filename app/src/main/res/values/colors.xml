@@ -9,4 +9,5 @@
     <color name="menu_bg_normal">#f0f1f3</color>
     <color name="item_divider">#ffd7d7d7</color>
     <color name="progress">#0294f0</color>
+    <color name="txt_small">#ff7a7a7a</color>
 </resources>

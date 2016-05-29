@@ -9,7 +9,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true">
 
-        <!--        <include layout="@layout/layout_detail_app_download" />-->
+        <include layout="@layout/layout_detail_app_download" />
     </LinearLayout>
 
     <ScrollView
@@ -31,7 +31,7 @@
 
             <include layout="@layout/layout_detail_app_screen" />
 
-            <!-- <include layout="@layout/layout_detail_app_intro" />-->
+            <include layout="@layout/layout_detail_app_intro" />
 
         </LinearLayout>
     </ScrollView>

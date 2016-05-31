@@ -1,52 +1,105 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="50dp"
-    android:orientation="horizontal"
-    android:padding="8dp">
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="5dp"
+    android:layout_marginRight="5dp"
+    android:background="@drawable/list_item_bg_normal"
+    android:orientation="vertical"
+    android:padding="10dp">
 
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@drawable/btn_detail"
-        android:gravity="center"
-        android:text="收藏"
-        android:textColor="@android:color/white"
-        android:textSize="16sp" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
 
-    <FrameLayout
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_marginLeft="5dp"
-        android:layout_marginRight="5dp"
-        android:layout_weight="1">
+        <ImageView
+            android:id="@+id/iv_icon"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:scaleType="fitXY"
+            android:src="@mipmap/ic_default" />
 
-        <ProgressBar
-            android:id="@+id/pb_progress"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:indeterminateOnly="false"
-            android:progressDrawable="@drawable/detail_progress_drawable" />
+            android:layout_height="48dp"
+            android:layout_marginLeft="5dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:textSize="18sp"
+                android:id="@+id/tv_name"
+                android:textColor="@color/txt_title"
+                android:text="名称"
+                android:singleLine="true"
+                android:layout_height="wrap_content" />
+
+            <RatingBar
+                android:layout_width="wrap_content"
+                android:id="@+id/rb_star"
+                android:layout_marginTop="2dp"
+                android:layout_height="18dp"
+                android:progressDrawable="@drawable/ratinger_small"
+                android:rating="2.5" />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
 
         <TextView
-            android:id="@+id/btn_download"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:background="@drawable/selector_btn_download"
-            android:gravity="center"
-            android:text="下载"
-            android:textColor="@android:color/white"
-            android:textSize="16sp" />
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/tv_download_num"
+            android:text="下载：200W"
+            android:textColor="@color/txt_small"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
 
-    </FrameLayout>
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:text="version: 2.2"
+            android:singleLine="true"
+            android:id="@+id/tv_version"
+            android:textColor="@color/txt_small"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
 
-    <Button
-        android:layout_width="wrap_content"
-        android:background="@drawable/btn_detail"
-        android:gravity="center"
-        android:text="分享"
-        android:textColor="@android:color/white"
-        android:textSize="16sp"
-        android:layout_height="match_parent" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginTop="3dp"
+        android:layout_marginBottom="3dp"
+        android:orientation="horizontal"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/tv_date"
+            android:text="time: 2016-5-31"
+            android:textColor="@color/txt_small"
+            android:textSize="14sp"
+            android:layout_height="wrap_content" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/tv_size"
+            android:text="size: 2.2M"
+            android:textSize="14sp"
+            android:textColor="@color/txt_small"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
 
 </LinearLayout>

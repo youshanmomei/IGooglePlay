@@ -1,9 +1,9 @@
 package cn.qiuc.org.igoogleplay.ui.activity;
 
-import android.os.Handler;
-import android.os.Message;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.ScrollView;
+import android.widget.TextView;
 
 import com.nostra13.universalimageloader.core.ImageLoader;
 
@@ -35,6 +35,10 @@ public class AppDetailActivity extends BaseActivity {
             @Override
             protected View createSuccessView() {
                 View view = View.inflate(AppDetailActivity.this, R.layout.activity_detail, null);
+                ScrollView sv_container = (ScrollView) view.findViewById(R.id.sv_container);
+                ImageView iv_icon = (ImageView) view.findViewById(R.id.iv_icon);
+                TextView tv_name = (TextView) view.findViewById(R.id.tv_app_name);
+                TextView tv_download_num = (TextView) view.findViewById(R.id.tv_download_num);
                 //TODO...
 
 

@@ -19,7 +19,7 @@ public class ImageLoadercfg {
             .displayer(new SimpleBitmapDisplayer()).build();
 
 
-        public static DisplayImageOptions fade_opt_ions = new DisplayImageOptions.Builder()
+        public static DisplayImageOptions fade_options = new DisplayImageOptions.Builder()
                 .showImageOnLoading(R.mipmap.ic_default)
                 .showImageForEmptyUri(R.mipmap.ic_default)
                 .showImageOnFail(R.mipmap.ic_default).cacheInMemory(true)

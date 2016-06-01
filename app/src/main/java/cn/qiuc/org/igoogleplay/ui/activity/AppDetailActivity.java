@@ -1,7 +1,9 @@
 package cn.qiuc.org.igoogleplay.ui.activity;
 
+import android.text.Layout;
 import android.text.format.Formatter;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
@@ -67,7 +69,7 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
 
     @Override
     protected void initView() {
-        ContentPage contentPage = new ContentPage(this){
+        ContentPage contentPage = new ContentPage(this) {
 
             @Override
             protected View createSuccessView() {
@@ -154,17 +156,17 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
         return appInfo;
     }
 
-    private void refreshUI(){
+    private void refreshUI() {
         showAppInfo();
 
         showAppSafe();
 
-//        showAppScreen(); TODO...
+        showAppScreen();
 
-//        showAppIntro();
+        showAppIntro();
 
         ll_safe_des.measure(0, 0);
-//        targetHeight = ll_safe_des.getMeasureHeight();
+//        targetHeight = ll_safe_des.getMeasureHeight();TODO...
         ll_safe_des.getLayoutParams().height = 0;
         ll_safe_des.requestLayout();
 
@@ -212,6 +214,76 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
             iv_des_3.setVisibility(View.GONE);
             tv_des_3.setVisibility(View.GONE);
         }
+    }
+
+    private void showAppScreen() {
+        iv_screen_1.setOnClickListener(this);
+        iv_screen_2.setOnClickListener(this);
+        iv_screen_3.setOnClickListener(this);
+        iv_screen_4.setOnClickListener(this);
+        iv_screen_5.setOnClickListener(this);
+
+        ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + appInfo.screen.get(0), iv_screen_1, ImageLoadercfg.fade_options);
+        if (appInfo.screen.size() > 1) {
+            ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + appInfo.screen.get(1), iv_screen_2, ImageLoadercfg.fade_options);
+        } else {
+            iv_screen_2.setVisibility(View.GONE);
+        }
+
+        if (appInfo.screen.size() > 2) {
+            ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + appInfo.screen.get(2), iv_screen_3, ImageLoadercfg.fade_options);
+        } else {
+            iv_screen_3.setVisibility(View.GONE);
+        }
+
+        if (appInfo.screen.size() > 3) {
+            ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + appInfo.screen.get(3), iv_screen_4, ImageLoadercfg.fade_options);
+        } else {
+            iv_screen_4.setVisibility(View.GONE);
+        }
+
+        if (appInfo.screen.size() > 4) {
+            ImageLoader.getInstance().displayImage(Url.IMAGE_PREFIX + appInfo.screen.get(4), iv_screen_5, ImageLoadercfg.fade_options);
+        } else {
+            iv_screen_5.setVisibility(View.GONE);
+        }
+
+    }
+
+    private void showAppIntro() {
+        tv_intro.setText(appInfo.des);
+        tv_author.setText(appInfo.autor);
+
+        totalHeight = getTextViewHeight(tv_intro);
+        calculateLimitLinesHeight();
+
+    }
+
+    private int totalHeight;
+    private int limitLineHeight;
+
+    private int getTextViewHeight(TextView textView){
+        Layout layout = textView.getLayout();
+        int desired = layout.getLineTop(textView.getLineCount());
+        int padding = textView.getCompoundPaddingTop() + textView.getCompoundPaddingBottom();
+
+        return desired+padding;
+    }
+
+    private void calculateLimitLinesHeight(){
+        //calculate 5 lines height
+        tv_intro.setMaxLines(5);
+        tv_intro.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
+            @Override
+            public void onGlobalFocusChanged(View oldFocus, View newFocus) {
+//                tv_intro.getViewTreeObserver().removeGlobalOnLayoutListener(this);//TODO
+                limitLineHeight = tv_intro.getHeight();
+                tv_intro.setMaxLines(Integer.MAX_VALUE);
+
+                tv_intro.getLayoutParams().height = limitLineHeight;
+                tv_intro.requestLayout();
+            }
+        });
     }
 
     @Override

@@ -24,4 +24,5 @@ public class DownloadInfo {
         downloadInfo.path = DownloadManager.DOWNLOAD_DIR + "/" + appInfo.name + ".apk";
         return downloadInfo;
     }
+
 }

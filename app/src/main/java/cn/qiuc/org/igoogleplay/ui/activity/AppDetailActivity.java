@@ -1,7 +1,12 @@
 package cn.qiuc.org.igoogleplay.ui.activity;
 
+import android.animation.Animator;
+import android.animation.ValueAnimator;
+import android.content.Intent;
 import android.text.Layout;
 import android.text.format.Formatter;
+import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageView;
@@ -28,7 +33,7 @@ import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
 
-public class AppDetailActivity extends BaseActivity implements DownloadManager.DownloadObserver, View.OnClickListener {
+public class AppDetailActivity extends BaseActivity implements DownloadManager.DownloadObserver, View.OnClickListener,ViewTreeObserver.OnGlobalLayoutListener {
 
     OkHttpClient client = new OkHttpClient();
     private String packageName;
@@ -65,6 +70,8 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
     private LinearLayout ll_intro;
     private ProgressBar pb_progress;
     private TextView btn_download;
+    private int targetHeight;
+    private final String TAG = "AppDetailActivity";
 
 
     @Override
@@ -166,13 +173,13 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
         showAppIntro();
 
         ll_safe_des.measure(0, 0);
-//        targetHeight = ll_safe_des.getMeasureHeight();TODO...
+        targetHeight = ll_safe_des.getMeasuredHeight();
         ll_safe_des.getLayoutParams().height = 0;
         ll_safe_des.requestLayout();
 
         DownloadInfo downloadInfo = DownloadManager.getmInstatnce().getDownloadInfo(appInfo);
         if (downloadInfo != null) {
-//            refreshDownloadState(downloadInfo);
+            refreshDownloadState(downloadInfo);
         }
     }
 
@@ -262,21 +269,21 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
     private int totalHeight;
     private int limitLineHeight;
 
-    private int getTextViewHeight(TextView textView){
+    private int getTextViewHeight(TextView textView) {
         Layout layout = textView.getLayout();
         int desired = layout.getLineTop(textView.getLineCount());
         int padding = textView.getCompoundPaddingTop() + textView.getCompoundPaddingBottom();
 
-        return desired+padding;
+        return desired + padding;
     }
 
-    private void calculateLimitLinesHeight(){
+    private void calculateLimitLinesHeight() {
         //calculate 5 lines height
         tv_intro.setMaxLines(5);
         tv_intro.getViewTreeObserver().addOnGlobalFocusChangeListener(new ViewTreeObserver.OnGlobalFocusChangeListener() {
             @Override
             public void onGlobalFocusChanged(View oldFocus, View newFocus) {
-//                tv_intro.getViewTreeObserver().removeGlobalOnLayoutListener(this);//TODO
+//                tv_intro.getViewTreeObserver().removeGlobalOnLayoutListener(this);
                 limitLineHeight = tv_intro.getHeight();
                 tv_intro.setMaxLines(Integer.MAX_VALUE);
 
@@ -288,7 +295,9 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
 
     @Override
     protected void initActionBar() {
-
+        getSupportActionBar().setTitle(getString(R.string.app_detail));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
     }
 
     @Override
@@ -304,17 +313,203 @@ public class AppDetailActivity extends BaseActivity implements DownloadManager.D
     }
 
     @Override
-    public void onDownloadStateChange(DownloadInfo downloadInfo) {
-
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
-    @Override
-    public void onDownloadProgressChnage(DownloadInfo downloadInfo) {
-
-    }
+    private boolean isExpand = false;
+    private boolean isIntroExpand = false;
 
     @Override
     public void onClick(View v) {
+        final ValueAnimator animator;
+        switch (v.getId()) {
+            case R.id.rl_safe:
+                animator = isExpand ? ValueAnimator.ofInt(targetHeight, 0) : ValueAnimator.ofInt(0, targetHeight);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        ll_safe_des.getLayoutParams().height = (int) animator.getAnimatedValue();
+                        ll_safe_des.requestLayout();
+                    }
+                });
+
+                animator.setDuration(300);
+                animator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        isExpand = !isExpand;
+                        iv_arrow.setBackgroundResource(isIntroExpand ? R.mipmap.arrow_up : R.mipmap.arrow_down);
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                animator.start();
+                break;
+
+            case R.id.ll_intro:
+                animator = isIntroExpand ? ValueAnimator.ofInt(totalHeight, limitLineHeight) : ValueAnimator.ofInt(limitLineHeight, totalHeight);
+                animator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+                    @Override
+                    public void onAnimationUpdate(ValueAnimator animation) {
+                        tv_intro.getLayoutParams().height = (int) animator.getAnimatedValue();
+                        if (!isIntroExpand) {
+                            sv_container.smoothScrollTo(0, sv_container.getHeight());
+                        }
+                        tv_intro.requestLayout();
+                    }
+                });
+                animator.setDuration(300);
+                animator.addListener(new Animator.AnimatorListener() {
+                    @Override
+                    public void onAnimationStart(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        isIntroExpand = !isIntroExpand;
+                        iv_intro_arrow.setBackgroundResource(isIntroExpand ? R.mipmap.arrow_up : R.mipmap.arrow_down);
+
+                    }
+
+                    @Override
+                    public void onAnimationCancel(Animator animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animator animation) {
+
+                    }
+                });
+                animator.start();
+                break;
+            case R.id.btn_download:
+                DownloadInfo downloadInfo = DownloadManager.getmInstatnce().getDownloadInfo(appInfo);
+                if (downloadInfo == null) {
+                    //need to download
+                    DownloadManager.getmInstatnce().download(appInfo);
+                } else {
+                    if (downloadInfo.state==DownloadManager.STATE_DOWNLOADING || downloadInfo.state == DownloadManager.STATE_WAITTING) {
+                        DownloadManager.getmInstatnce().pause(appInfo);
+                    }else if (downloadInfo.state == DownloadManager.STATE_FINISH) {
+                        DownloadManager.getmInstatnce().installApk(appInfo);
+                    } else {
+                        DownloadManager.getmInstatnce().download(appInfo);
+                    }
+                }
+                break;
+            case R.id.iv_screen_1:
+                enterImageScaleActivity(0);
+                break;
+            case R.id.iv_screen_2:
+                enterImageScaleActivity(1);
+                break;
+            case R.id.iv_screen_3:
+                enterImageScaleActivity(2);
+                break;
+            case R.id.iv_screen_4:
+                enterImageScaleActivity(3);
+                break;
+            case R.id.iv_screen_5:
+                enterImageScaleActivity(4);
+                break;
+        }
+    }
+
+    private void enterImageScaleActivity(int currentIndex) {
+        Intent intent = new Intent(this, ImageScaleActivity.class);
+        intent.putStringArrayListExtra("imageUrl", appInfo.screen);
+        intent.putExtra("currentIndex", currentIndex);
+        startActivity(intent);
+    }
+
+    @Override
+    public void onDownloadStateChange(DownloadInfo downloadInfo) {
+        refreshDownloadState(downloadInfo);
+    }
+
+    private void refreshDownloadState(final DownloadInfo downloadInfo) {
+        if (appInfo == null || downloadInfo.id == appInfo.id) {
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                switch (downloadInfo.state) {
+                    case DownloadManager.STATE_NONE:
+                        Log.e(TAG, "需要下载");
+                        btn_download.setText("下载");
+                        btn_download.setBackgroundResource(R.drawable.selector_btn_download);
+                        break;
+                    case DownloadManager.STATE_WAITTING:
+                        Log.e(TAG, "任务等待职工");
+                        btn_download.setText("等待中");
+                        btn_download.setBackgroundResource(0);
+                        break;
+                    case DownloadManager.STATE_FINISH:
+                        Log.e(TAG, "任务完成");
+                        btn_download.setText("安装");
+                        btn_download.setBackgroundResource(R.drawable.selector_btn_download);
+                        break;
+                    case DownloadManager.STATE_PAUSE:
+                        Log.e(TAG, "继续下载");
+                        btn_download.setText("暂停任务");
+                        btn_download.setBackgroundResource(R.drawable.selector_btn_download);
+                        break;
+                    case DownloadManager.STATE_ERROR:
+                        Log.e(TAG, "任务出错");
+                        btn_download.setText("重新下载");
+                        btn_download.setBackgroundResource(R.drawable.selector_btn_download);
+                        break;
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onDownloadProgressChnage(final DownloadInfo downloadInfo) {
+        if (appInfo == null || downloadInfo.id!=appInfo.id) {
+            return;
+        }
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                btn_download.setBackgroundResource(0);
+
+                float percent = downloadInfo.currentLength * 100f / downloadInfo.size;
+                btn_download.setText(percent + "%");
+                pb_progress.setProgress((int) downloadInfo.currentLength);
+            }
+        });
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        DownloadManager.getmInstatnce().unregisterDownloadObserver(this);
+    }
+
+    @Override
+    public void onGlobalLayout() {
 
     }
 }

@@ -18,7 +18,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".ui.activity.AppDetailActivity"></activity>
+        <activity android:name=".ui.activity.AppDetailActivity" />
+        <activity android:name=".ui.activity.ImageScaleActivity"></activity>
     </application>
 
 </manifest>

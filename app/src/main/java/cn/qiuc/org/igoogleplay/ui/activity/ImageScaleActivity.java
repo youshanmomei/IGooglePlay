@@ -7,6 +7,7 @@ import java.util.List;
 
 import cn.qiuc.org.igoogleplay.R;
 import cn.qiuc.org.igoogleplay.lib.photoview.HackyViewPager;
+import cn.qiuc.org.igoogleplay.ui.adapter.ImageScaleAdapter;
 
 public class ImageScaleActivity extends AppCompatActivity {
 
@@ -21,10 +22,10 @@ public class ImageScaleActivity extends AppCompatActivity {
 
         List<String> list = getIntent().getStringArrayListExtra("imageUrl");
         int currentItem = getIntent().getIntExtra("currentIndex", 0);
-//        ImageScaleAdapter adapter = new ImageScaleAdapter(list);//TODO...
-//
-//        view_pager.setAdapter(adapter);
-//        view_pager.setCurrentItem(currentItem);
+        ImageScaleAdapter adapter = new ImageScaleAdapter(list);
+
+        view_pager.setAdapter(adapter);
+        view_pager.setCurrentItem(currentItem);
 
 
     }

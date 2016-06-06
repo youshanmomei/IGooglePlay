@@ -3,11 +3,16 @@ package cn.qiuc.org.igoogleplay.ui.fragment;
 import android.view.View;
 import android.widget.ListView;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
 import java.util.ArrayList;
+import java.util.List;
 
+import cn.qiuc.org.igoogleplay.R;
 import cn.qiuc.org.igoogleplay.bean.AppInfo;
+import cn.qiuc.org.igoogleplay.http.Url;
+import cn.qiuc.org.igoogleplay.ui.adapter.AppAdapter;
 
 /**
  * Created by admin on 2016/6/6.
@@ -19,22 +24,14 @@ public class AppFragment extends BaseFragment {
     private PullToRefreshListView refreshListView;
     private ListView listView;
 
-    @Override
-    protected Object loadData() {
-        return null;
-    }
+    private AppAdapter adapter;
 
-    @Override
-    protected View createSuccessView() {
-        return null;
-    }
-//    private AppAdapter adapter;
-/*
     @Override
     protected Object loadData() {
         String url = String.format(Url.App, list.size() == 0 ? 0 : list.size() + 1);
-        List<AppInfo> appList = JsonUtil.parseJsonToList(HttpHelper.get(url), new TypeToken<List<AppInfo>>() {
-        }.getType());
+//        List<AppInfo> appList = JsonUtil.parseJsonToList(HttpHelper.get(url), new TypeToken<List<AppInfo>>() {
+//        }.getType());// TODO: 2016/6/8 
+        List<AppInfo> appList=null;
 
         if (appList != null) {
             list.addAll(appList);
@@ -81,5 +78,5 @@ public class AppFragment extends BaseFragment {
         return refreshListView;
     }
 
-*/
+
 }

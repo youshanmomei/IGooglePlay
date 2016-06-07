@@ -3,6 +3,7 @@ package cn.qiuc.org.igoogleplay.ui.fragment;
 import android.view.View;
 import android.widget.ListView;
 
+import com.google.gson.reflect.TypeToken;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 
@@ -11,8 +12,10 @@ import java.util.List;
 
 import cn.qiuc.org.igoogleplay.R;
 import cn.qiuc.org.igoogleplay.bean.AppInfo;
+import cn.qiuc.org.igoogleplay.http.HttpHelper;
 import cn.qiuc.org.igoogleplay.http.Url;
 import cn.qiuc.org.igoogleplay.ui.adapter.AppAdapter;
+import cn.qiuc.org.igoogleplay.util.JsonUtil;
 
 /**
  * Created by admin on 2016/6/6.
@@ -29,9 +32,7 @@ public class AppFragment extends BaseFragment {
     @Override
     protected Object loadData() {
         String url = String.format(Url.App, list.size() == 0 ? 0 : list.size() + 1);
-//        List<AppInfo> appList = JsonUtil.parseJsonToList(HttpHelper.get(url), new TypeToken<List<AppInfo>>() {
-//        }.getType());// TODO: 2016/6/8 
-        List<AppInfo> appList=null;
+        List<AppInfo> appList = (List<AppInfo>) JsonUtil.parseJsonToList(HttpHelper.get(url), new TypeToken<List<AppInfo>>() {}.getType());
 
         if (appList != null) {
             list.addAll(appList);

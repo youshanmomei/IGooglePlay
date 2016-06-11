@@ -14,5 +14,6 @@ public interface Url {
     String APP_BREAK_DOWNLOAD = SERVER_HOST+"download?name=%1$s&range=%2$d";
     String APP_DETAIL = SERVER_HOST + "detail?packageName=%2$s";
     String App = SERVER_HOST + "app?index=%1$d";
-    String GAME = SERVER_HOST + "game?index=$1$d";
+    String GAME = SERVER_HOST + "game?index=%1$d";
+    String SUBJECT = SERVER_HOST + "subject?index=%1$d";
 }

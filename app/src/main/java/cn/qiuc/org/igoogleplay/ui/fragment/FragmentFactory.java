@@ -20,10 +20,10 @@ public class FragmentFactory {
                     fragment = new AppFragment();
                     break;
                 case 2:
-                    fragment = new GameFragment(); //TODO
+                    fragment = new GameFragment();
                     break;
                 case 3:
-                    fragment = new HomeFragment(); //TODO
+                    fragment = new SubjectFragment();
                     break;
                 case 4:
                     fragment = new HomeFragment(); //TODO

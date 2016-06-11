@@ -20,7 +20,7 @@ public class FragmentFactory {
                     fragment = new AppFragment();
                     break;
                 case 2:
-                    fragment = new HomeFragment(); //TODO
+                    fragment = new GameFragment(); //TODO
                     break;
                 case 3:
                     fragment = new HomeFragment(); //TODO

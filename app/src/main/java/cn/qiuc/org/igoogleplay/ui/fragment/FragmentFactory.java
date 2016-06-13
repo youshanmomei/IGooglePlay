@@ -26,7 +26,7 @@ public class FragmentFactory {
                     fragment = new SubjectFragment();
                     break;
                 case 4:
-                    fragment = new HomeFragment(); //TODO
+                    fragment = new RecommendFragment();
                     break;
                 case 5:
                     fragment = new HomeFragment(); //TODO

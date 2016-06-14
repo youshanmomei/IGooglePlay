@@ -16,4 +16,5 @@ public interface Url {
     String App = SERVER_HOST + "app?index=%1$d";
     String GAME = SERVER_HOST + "game?index=%1$d";
     String SUBJECT = SERVER_HOST + "subject?index=%1$d";
+    String RECOMMEND = SERVER_HOST + "recommend?index=%1%d";
 }

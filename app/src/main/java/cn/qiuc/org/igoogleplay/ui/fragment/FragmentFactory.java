@@ -29,7 +29,7 @@ public class FragmentFactory {
                     fragment = new RecommendFragment();
                     break;
                 case 5:
-                    fragment = new HomeFragment(); //TODO
+                    fragment = new CategoryFragment();
                     break;
                 case 6:
                     fragment = new HomeFragment(); //TODO

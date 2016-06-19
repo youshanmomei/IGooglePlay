@@ -1,2 +1,2 @@
-include ':app', ':okhttpdemo'
+include ':app'
 include ':pullToRefresh'

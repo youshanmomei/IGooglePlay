@@ -4,6 +4,7 @@ import android.graphics.Color;
 import android.graphics.drawable.GradientDrawable;
 import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -15,6 +16,7 @@ import java.util.List;
 
 import cn.qiuc.org.igoogleplay.http.HttpHelper;
 import cn.qiuc.org.igoogleplay.http.Url;
+import cn.qiuc.org.igoogleplay.ui.view.FlowLayout2;
 import cn.qiuc.org.igoogleplay.util.ColorUtils;
 import cn.qiuc.org.igoogleplay.util.DrawableUtil;
 import cn.qiuc.org.igoogleplay.util.JsonUtil;
@@ -26,16 +28,16 @@ public class HotFragment extends BaseFragment {
     private final String TAG = "HotFragment";
     private ArrayList<String> list = new ArrayList<String>();
     private ScrollView scrollView;
-//    private FlowLayout2 flowLayout;
+    private FlowLayout2 flowLayout;
 
     @Override
     protected View createSuccessView() {
         scrollView = new ScrollView(getActivity());
-//        flowLayout = new FlowLayout2(getActivity());
-//        flowLayout.setPadding(10, 10, 10, 10);
-//        flowLayout.setHorizontalSpacing(12);
-//        flowLayout.setVerticalSpacing(12);
-//        scrollView.addView(flowLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+        flowLayout = new FlowLayout2(getActivity());
+        flowLayout.setPadding(10, 10, 10, 10);
+        flowLayout.setHorizontalSpacing(12);
+        flowLayout.setVerticalSpacing(12);
+        scrollView.addView(flowLayout, new ViewGroup.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
 
         return scrollView;
     }

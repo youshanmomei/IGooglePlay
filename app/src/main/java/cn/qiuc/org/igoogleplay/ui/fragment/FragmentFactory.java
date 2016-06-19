@@ -32,10 +32,10 @@ public class FragmentFactory {
                     fragment = new CategoryFragment();
                     break;
                 case 6:
-                    fragment = new HomeFragment(); //TODO
+                    fragment = new HomeFragment();
                     break;
                 default:
-                    fragment = new HomeFragment();
+                    fragment = new HotFragment();
                     break;
             }
             fragmentCache.put(position, fragment);

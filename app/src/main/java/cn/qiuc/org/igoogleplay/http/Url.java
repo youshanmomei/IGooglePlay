@@ -18,4 +18,6 @@ public interface Url {
     String SUBJECT = SERVER_HOST + "subject?index=%1$d";
     String RECOMMEND = SERVER_HOST + "recommend?index=%1$d";
     String CATEGORY = SERVER_HOST + "category?index=$1$d";
+    String HOT = SERVER_HOST + "hot?index=%1$d";
+
 }
